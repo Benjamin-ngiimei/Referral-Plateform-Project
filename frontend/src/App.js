@@ -3,6 +3,21 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
 import Layout from "./components/Layout";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
+import AdminDashboard from "./components/AdminDashboard";
+import FindReferrals from "./components/FindReferrals";
+import PostOpportunities from "./components/PostOpportunities";
+import "./App.css";
+import "./css/Home.css";
+import "./css/About.css";
+import "./css/Layout.css";
+import "./css/Login.css";
+import "./css/Register.css";
+import "./css/Dashboard.css";
+import "./css/FindReferrals.css";
+import "./css/PostOpportunities.css";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +32,28 @@ const router = createBrowserRouter([
         path: "/about",
         element: <About />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {path: "/find-referrals",
+         element: <FindReferrals />
+        },
+        {path: "/post-opportunities",
+          element: <PostOpportunities />
+        },
+        {
+          path: "/admin-dashboard",
+          element: <AdminDashboard />
+        }
     ],
   },
 ]);

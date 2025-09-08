@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { Menu, X, Facebook, Twitter, Linkedin } from "lucide-react";
-import "./Layout.css";
+import "../css/Layout.css";
 
 const GradientButton = ({ children }) => (
   <button className="gradient-button">
@@ -33,7 +33,7 @@ const Layout = () => {
       <header className={`main-header ${isScrolled ? "scrolled-header" : ""}`}>
         <nav className="main-nav">
           <div className="logo">
-            <Link to="/">🔗 ReferralHub</Link>
+            <Link to="/">ReferralHub</Link>
           </div>
 
           {/* Desktop Nav */}
@@ -57,8 +57,10 @@ const Layout = () => {
 
           {/* Actions */}
           <div className="nav-actions">
-            <button className="sign-in-button">Sign In</button>
-            <GradientButton>Get Started</GradientButton>
+            <Link to="/login" className="sign-in-button">Sign In</Link>
+            <Link to="/register">
+              <GradientButton>Register</GradientButton>
+            </Link>
           </div>
         </nav>
       </header>
@@ -71,7 +73,7 @@ const Layout = () => {
       <footer className="main-footer">
         <div className="footer-grid">
           <div>
-            <h3 className="footer-heading">🔗 ReferralHub</h3>
+            <h3 className="footer-heading">ReferralHub</h3>
             <p>
               Connecting talented professionals with opportunities through the
               power of referrals.

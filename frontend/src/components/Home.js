@@ -1,4 +1,7 @@
+
 import React from "react";
+import { Link } from "react-router-dom";
+import "../css/Home.css";
 
 const GradientButton = ({ children }) => (
   <button className="gradient-button">
@@ -22,12 +25,16 @@ const Home = () => {
             accelerate your career with our referral network.
           </p>
           <div className="hero-buttons">
-            <GradientButton>
-              🚀 Find Referrals
-            </GradientButton>
-           <GradientButton>💼 Post Opportunities</GradientButton>
-              
-            
+            <Link to="/find-referrals">
+              <GradientButton>
+                Find Referrals
+              </GradientButton>
+            </Link>
+            <Link to="/post-opportunities">
+              <GradientButton>
+                Post Opportunities
+              </GradientButton>
+            </Link>
           </div>
         </div>
       </section>
@@ -61,7 +68,7 @@ const Home = () => {
             Join thousands of professionals who found their dream jobs through
             referrals.
           </p>
-          <GradientButton>🚀 Start Your Journey</GradientButton>
+          <GradientButton>Start Your Journey</GradientButton>
         </div>
       </section>
     </>
