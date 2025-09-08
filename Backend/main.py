@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import redis
 import json
 from passlib.context import CryptContext
-from .database import get_redis_connection
+from database import get_redis_connection
 
 app = FastAPI()
 
@@ -43,7 +43,7 @@ def login_user(login: Login, db: redis.Redis = Depends(get_redis_connection)):
         user_data = json.loads(user_data_raw)
         
         if pwd_context.verify(login.password, user_data["password"]):
-            return {"message": "Login successful"}
+            return {"message": "Login successful", "name": user_data["name"]}
         else:
             raise HTTPException(status_code=401, detail="Incorrect password")
     except redis.exceptions.ConnectionError as e:
