@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
@@ -8,8 +7,6 @@ const GradientButton = ({ children }) => (
     {children}
   </button>
 );
-
-
 
 const Home = () => {
   return (
@@ -48,7 +45,7 @@ const Home = () => {
             { num: "500+", label: "Partner Companies" },
             { num: "95%", label: "Success Rate" },
           ].map((s, i) => (
-            <div className="stat-item">
+            <div className="stat-item" key={i}>
               <h3 className="stat-number">
                 {s.num}
               </h3>

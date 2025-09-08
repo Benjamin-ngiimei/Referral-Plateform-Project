@@ -9,7 +9,7 @@ const GradientButton = ({ children }) => (
   </button>
 );
 
-const Layout = () => {
+const Layout = ({ loggedInUser, handleLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -57,10 +57,20 @@ const Layout = () => {
 
           {/* Actions */}
           <div className="nav-actions">
-            <Link to="/login" className="sign-in-button">Sign In</Link>
-            <Link to="/register">
-              <GradientButton>Register</GradientButton>
-            </Link>
+            {loggedInUser ? (
+              <div className="user-info">
+                <div className="avatar">{loggedInUser.substring(0, 2).toUpperCase()}</div>
+                <span className="user-name">{loggedInUser}</span>
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="sign-in-button">Sign In</Link>
+                <Link to="/register">
+                  <GradientButton>Register</GradientButton>
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       </header>

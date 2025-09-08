@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../css/Login.css';
 
-const Login = () => {
+const Login = ({ setLoggedInUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -19,6 +19,8 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
+        setLoggedInUser(data.name);
+        localStorage.setItem('loggedInUser', data.name);
         setEmail('');
         setPassword('');
       } else {
