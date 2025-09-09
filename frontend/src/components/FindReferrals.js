@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/FindReferrals.css';
+import API_URL from '../config';
 
 const FindReferrals = () => {
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("All");
-    const referrals = [
-        { id: 1, name: "Software Engineer", company: "TechCorp", type: "Full-Time" },
-        { id: 2, name: "Data Analyst", company: "DataWorks", type: "Internship" },
-        { id: 3, name: "Product Manager", company: "InnovateX", type: "Full-Time" },
-        { id: 4, name: "UI/UX Designer", company: "Designify", type: "Contract" },
-        { id: 5, name: "Backend Developer", company: "Cloudify", type: "Full-Time" },
-        { id: 6, name: "Frontend Developer", company: "Webify", type: "Internship" },
-        { id: 7, name: "QA Engineer", company: "TestPro", type: "Contract" },
-        { id: 8, name: "DevOps Engineer", company: "OpsGen", type: "Full-Time" },
-        { id: 9, name: "Business Analyst", company: "BizInsight", type: "Full-Time" },
-        { id: 10, name: "Mobile App Developer", company: "Appify", type: "Internship" },
-    ];
+    const [referrals, setReferrals] = useState([]);
+
+    useEffect(() => {
+        const fetchOpportunities = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/opportunities/all`);
+                const data = await response.json();
+                setReferrals(data);
+            } catch (error) {
+                console.error('Error fetching opportunities:', error);
+            }
+        };
+
+        fetchOpportunities();
+    }, []);
 
     const filteredReferrals = referrals.filter(ref =>
         (filter === "All" || ref.type === filter) &&
-        (ref.name.toLowerCase().includes(search.toLowerCase()) ||
+        (ref.title.toLowerCase().includes(search.toLowerCase()) ||
          ref.company.toLowerCase().includes(search.toLowerCase()))
     );
 
@@ -44,10 +48,10 @@ const FindReferrals = () => {
                 {filteredReferrals.length === 0 ? (
                     <li>No referrals found.</li>
                 ) : (
-                    filteredReferrals.map(ref => (
-                        <li key={ref.id}>
+                    filteredReferrals.map((ref, index) => (
+                        <li key={index}>
                             <div>
-                                <strong>{ref.name}</strong> at {ref.company} <span>({ref.type})</span>
+                                <strong>{ref.title}</strong> at {ref.company} <span>({ref.type})</span>
                             </div>
                             <button className="apply-btn">Apply</button>
                         </li>
