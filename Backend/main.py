@@ -1,11 +1,28 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import redis
 import json
 from passlib.context import CryptContext
 from database import get_redis_connection
+from Models.Opportunity import Opportunity
+from config import PORT
 
 app = FastAPI()
+
+# CORS middleware
+origins = [
+    "http://localhost:3000",  # React frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -48,3 +65,33 @@ def login_user(login: Login, db: redis.Redis = Depends(get_redis_connection)):
             raise HTTPException(status_code=401, detail="Incorrect password")
     except redis.exceptions.ConnectionError as e:
         raise HTTPException(status_code=500, detail=f"Redis connection error: {e}")
+
+@app.post("/api/opportunities")
+def post_opportunity(opportunity: Opportunity, db: redis.Redis = Depends(get_redis_connection)):
+    try:
+        # Generate a unique ID for the opportunity
+        opportunity_id = db.incr("opportunity_id_counter")
+        opportunity_key = f"opportunity:{opportunity_id}"
+        
+        # Store the opportunity data in Redis
+        db.set(opportunity_key, json.dumps(opportunity.dict()))
+        
+        return {"message": "Opportunity posted successfully", "opportunity_id": opportunity_id}
+    except redis.exceptions.ConnectionError as e:
+        raise HTTPException(status_code=500, detail=f"Redis connection error: {e}")
+
+@app.get("/api/opportunities/all")
+def get_all_opportunities(db: redis.Redis = Depends(get_redis_connection)):
+    try:
+        opportunities = []
+        for key in db.keys("opportunity:*"):
+            opportunity_data_raw = db.get(key)
+            if opportunity_data_raw:
+                opportunities.append(json.loads(opportunity_data_raw))
+        return opportunities
+    except redis.exceptions.ConnectionError as e:
+        raise HTTPException(status_code=500, detail=f"Redis connection error: {e}")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
