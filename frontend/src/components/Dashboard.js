@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/Dashboard.css';
+import API_URL from '../config';
 
 const Dashboard = () => {
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+  console.log('Dashboard component rendered');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    avatar: '',
     phone: '+1 555-123-4567',
     address: '123 Main St, Springfield, USA',
-  };
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const referral_key = localStorage.getItem('referral_key');
+    if (!referral_key) {
+      setLoading(false);
+      return;
+    }
+    fetch(`${API_URL}/api/user/${referral_key}/data`)
+      .then(res => res.json())
+      .then(data => {
+        setUser({
+          name: data.name,
+          email: data.email,
+          avatar: data.avatar || `https://i.pravatar.cc/150?u=${data.email}`,
+          phone: data.phone || '+1 555-123-4567',
+          address: data.address || '123 Main St, Springfield, USA',
+        });
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   const education = [
     {
@@ -39,12 +63,28 @@ const Dashboard = () => {
       description: 'Assisted in frontend development and testing.'
     },
   ];
+  const [appliedReferrals, setAppliedReferrals] = useState([]);
 
-  const appliedReferrals = [
-    { id: 1, name: 'Software Engineer', company: 'TechCorp', status: 'Pending' },
-    { id: 2, name: 'Data Analyst', company: 'DataWorks', status: 'Accepted' },
-    { id: 3, name: 'UI/UX Designer', company: 'Designify', status: 'Rejected' },
-  ];
+  useEffect(() => {
+    const fetchAppliedReferrals = async () => {
+      const referral_key = localStorage.getItem('referral_key');
+      if (referral_key) {
+        try {
+          const response = await fetch(`${API_URL}/api/user/${referral_key}/opportunities`);
+          const data = await response.json();
+          setAppliedReferrals(data);
+        } catch (error) {
+          console.error('Error fetching applied referrals:', error);
+        }
+      }
+    };
+
+    fetchAppliedReferrals();
+  }, []);
+
+  if (loading) {
+    return <div className="dashboard-container"><p>Loading profile...</p></div>;
+  }
 
   return (
     <div className="dashboard-container">
@@ -88,11 +128,11 @@ const Dashboard = () => {
         <h3>Referrals You've Applied To</h3>
         <ul className="applied-referral-list">
           {appliedReferrals.map(ref => (
-            <li key={ref.id} className={`applied-referral-item status-${ref.status.toLowerCase()}`}>
+            <li key={ref.id} className={`applied-referral-item status-${ref.status ? ref.status.toLowerCase() : ''}`}>
               <div>
-                <strong>{ref.name}</strong> at {ref.company}
+                <strong>{ref.title}</strong> at {ref.company}
               </div>
-              <span>{ref.status}</span>
+              {ref.status && <span>Status: {ref.status}</span>} 
             </li>
           ))}
         </ul>

@@ -13,6 +13,12 @@ const Layout = ({ loggedInUser, handleLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const isAdmin = localStorage.getItem('admin') === 'true';
+  const dashboardPath = isAdmin ? '/admin-dashboard' : '/dashboard';
+
+  console.log('Layout: loggedInUser', loggedInUser);
+  console.log('Layout: isAdmin from localStorage', localStorage.getItem('admin'));
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80);
@@ -45,13 +51,13 @@ const Layout = ({ loggedInUser, handleLogout }) => {
               <Link to="/about" className="nav-link">About us</Link>
             </li>
             <li>
-              <Link to="/" className="nav-link">features</Link>
+              <Link to="/features" className="nav-link">Features</Link>
             </li>
             <li>
-            <Link to="/" className="nav-link">How it work</Link>
+            <Link to="/how-it-work" className="nav-link">How it work</Link>
             </li>
             <li>
-              <Link to="/" className="nav-link">Contact</Link>
+              <Link to="/contact" className="nav-link">Contact</Link>
             </li>
           </ul>
 
@@ -59,8 +65,14 @@ const Layout = ({ loggedInUser, handleLogout }) => {
           <div className="nav-actions">
             {loggedInUser ? (
               <div className="user-info">
-                <div className="avatar">{loggedInUser.substring(0, 2).toUpperCase()}</div>
-                <span className="user-name">{loggedInUser}</span>
+                <Link to={dashboardPath}>
+                  {localStorage.getItem('userAvatar') ? (
+                    <img src={localStorage.getItem('userAvatar')} alt="Avatar" className="avatar-navbar" />
+                  ) : (
+                    <img src="/userAvatar.png" alt="Avatar" className="avatar-navbar" />
+                  )}
+                </Link>
+                <Link to={dashboardPath} className="user-name">{loggedInUser}</Link>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
               </div>
             ) : (
@@ -69,6 +81,9 @@ const Layout = ({ loggedInUser, handleLogout }) => {
                 <Link to="/register">
                   <GradientButton>Register</GradientButton>
                 </Link>
+                {/* <Link to="/admin-dashboard">
+                  <button className="sign-in-button" style={{marginLeft: '8px'}}>Admin Login</button>
+                </Link> */}
               </>
             )}
           </div>
@@ -100,10 +115,10 @@ const Layout = ({ loggedInUser, handleLogout }) => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2">
-              <li><Link to="/about">About Us</Link></li>
-              <li><Link to="/careers">Careers</Link></li>
-              <li><Link to="/blog">Blog</Link></li>
-              <li><Link to="/press">Press</Link></li>
+              <li>About Us</li>
+              <li>Careers</li>
+              <li>Blog</li>
+              <li>Press</li>
             </ul>
           </div>
           <div>
