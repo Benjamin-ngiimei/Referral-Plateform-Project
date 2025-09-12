@@ -33,7 +33,7 @@ To get the project up and running on your local machine, follow these steps:
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository_url>
+git clone (https://github.com/Benjamin-ngiimei/Referral-Plateform-Project.git)
 cd "Referrel platform project"
 ```
 
