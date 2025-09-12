@@ -1,0 +1,90 @@
+.start-journey-container {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+.start-journey-container h2 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: #2a7ae2;
+}
+
+.start-journey-container p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+.journey-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.journey-register-btn,
+.journey-find-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.journey-register-btn {
+    background-color: #2a7ae2;
+    color: #fff;
+    border: 2px solid #2a7ae2;
+}
+
+.journey-register-btn:hover {
+    background-color: #185bb5;
+    transform: translateY(-3px);
+}
+
+.journey-find-btn {
+    background-color: #fff;
+    color: #2a7ae2;
+    border: 2px solid #2a7ae2;
+}
+
+.journey-find-btn:hover {
+    background-color: #e3eafc;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .start-journey-container h2 {
+        font-size: 2.2rem;
+    }
+    .start-journey-container p {
+        font-size: 1rem;
+    }
+    .journey-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .journey-register-btn,
+    .journey-find-btn {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .start-journey-container {
+        padding: 40px 15px;
+    }
+    .start-journey-container h2 {
+        font-size: 1.8rem;
+    }
+    .journey-register-btn,
+    .journey-find-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

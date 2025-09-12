@@ -1,0 +1,101 @@
+.features-container {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #111315;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.features-container h2 {
+    font-size: 2.5rem;
+    color: #c8c3c3;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background-color: #f3efef;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    text-align: left;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+}
+
+.feature-item h3 {
+    font-size: 1.8rem;
+    color: #2a7ae2;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Responsive adjustments */
+
+/* For screens smaller than 768px (e.g., tablets) */
+@media (max-width: 768px) {
+    .features-container h2 {
+        font-size: 2rem;
+    }
+    .feature-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust min width for 2 columns */
+        gap: 20px;
+    }
+    .feature-item h3 {
+        font-size: 1.5rem;
+    }
+    .feature-item p {
+        font-size: 0.95rem;
+    }
+    .feature-item {
+        padding: 25px;
+    }
+}
+
+/* For screens smaller than 480px (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .features-container {
+        padding: 30px 15px;
+    }
+    .features-container h2 {
+        font-size: 1.8rem;
+    }
+    .feature-list {
+        grid-template-columns: 1fr; /* Stack items in a single column */
+        gap: 15px;
+    }
+    .feature-item {
+        padding: 20px;
+    }
+    .feature-item h3 {
+        font-size: 1.3rem;
+    }
+    .feature-item p {
+        font-size: 0.9rem;
+    }
+}
