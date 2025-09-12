@@ -26,12 +26,13 @@
 
 .referral-list {
     list-style: none;
+    color: rgb(66, 63, 63);
     padding: 0;
     margin: 0;
 }
 
 .referral-list li {
-    background: #f9f9f9;
+    background: #e5e5e5;
     margin-bottom: 0.75rem;
     padding: 1rem;
     border-radius: 6px;
@@ -69,6 +70,14 @@
 }
 .apply-btn:hover {
     background: #185bb5;
+}
+
+.applied-btn {
+    background-color: #4CAF50; /* Green */
+    cursor: not-allowed; /* Indicate it's disabled */
+}
+.applied-btn:hover {
+    background-color: #4CAF50; /* Keep green on hover */
 }
 
 @media (max-width: 600px) {

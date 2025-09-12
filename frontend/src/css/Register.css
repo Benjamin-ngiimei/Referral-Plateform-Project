@@ -7,22 +7,6 @@
   text-align: center;
 }
 
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
 button {
   width: 100%;
   padding: 10px;
@@ -35,4 +19,25 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+submit-button {
+  background-color: #2a7ae2;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.submit-button:hover {
+  background-color: #185bb5;
+}
+.link {
+  color: #2a7ae2;
+  cursor: pointer;
+}
+.link:hover {
+  color: rgb(0, 255, 34);
+  text-decoration: underline;
 }

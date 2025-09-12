@@ -1,7 +1,7 @@
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
+import StartYourJourney from "./StartYourJourney";
 
 const GradientButton = ({ children }) => (
   <button className="gradient-button">
@@ -9,9 +9,31 @@ const GradientButton = ({ children }) => (
   </button>
 );
 
-
-
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const referralKey = localStorage.getItem('referral_key');
+      const adminStatus = localStorage.getItem('admin') === 'true';
+      setIsLoggedIn(!!referralKey);
+      setIsAdmin(adminStatus);
+    };
+
+    checkLoginStatus(); // Initial check
+
+    const handleStorageChange = () => {
+      checkLoginStatus(); // Re-check on storage changes
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   return (
     <>
       {/* Hero Section */}
@@ -25,16 +47,27 @@ const Home = () => {
             accelerate your career with our referral network.
           </p>
           <div className="hero-buttons">
-            <Link to="/find-referrals">
-              <GradientButton>
-                Find Referrals
-              </GradientButton>
-            </Link>
-            <Link to="/post-opportunities">
-              <GradientButton>
-                Post Opportunities
-              </GradientButton>
-            </Link>
+            {!isLoggedIn && (
+              <Link to="/find-referrals">
+                <GradientButton>
+                  Find Referrals
+                </GradientButton>
+              </Link>
+            )}
+            {isLoggedIn && !isAdmin && (
+              <Link to="/find-referrals">
+                <GradientButton>
+                  Find Referrals
+                </GradientButton>
+              </Link>
+            )}
+            {isLoggedIn && isAdmin && (
+              <Link to="/post-opportunities">
+                <GradientButton>
+                  Post Opportunities
+                </GradientButton>
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -48,7 +81,7 @@ const Home = () => {
             { num: "500+", label: "Partner Companies" },
             { num: "95%", label: "Success Rate" },
           ].map((s, i) => (
-            <div className="stat-item">
+            <div className="stat-item" key={i}>
               <h3 className="stat-number">
                 {s.num}
               </h3>
@@ -58,19 +91,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-emerald-600 to-blue-600 text-white text-center">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl font-extrabold mb-4">
-            Ready to Transform Your Career?
-          </h2>
-          <p className="text-lg opacity-90 mb-8">
-            Join thousands of professionals who found their dream jobs through
-            referrals.
-          </p>
-          <GradientButton>Start Your Journey</GradientButton>
-        </div>
-      </section>
+      {/* Conditionally render StartYourJourney */}
+      {!isLoggedIn && <StartYourJourney />}
     </>
   );
 };
